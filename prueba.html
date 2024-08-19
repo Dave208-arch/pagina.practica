@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Restringido a Bolivia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            padding-top: 100px;
+        }
+        #content {
+            display: none;
+        }
+        #message {
+            font-size: 24px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="content">
+        <h1>Bienvenido a la página exclusiva para Bolivia</h1>
+        <p>Este contenido solo es accesible desde Bolivia.</p>
+    </div>
+
+    <div id="message">
+        Verificando tu ubicación...
+    </div>
+
+    <script>
+        // Función para obtener la ubicación del usuario
+        async function getLocation() {
+            try {
+                // Usamos la API de ipapi.co para obtener la información de la IP
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
+                
+                if (data.country_name === 'Bolivia') {
+                    document.getElementById('content').style.display = 'block';
+                    document.getElementById('message').style.display = 'none';
+                } else {
+                    document.getElementById('message').innerText = 'Lo sentimos, este contenido solo está disponible en Bolivia.';
+                }
+            } catch (error) {
+                console.error('Error al obtener la ubicación:', error);
+                document.getElementById('message').innerText = 'No se pudo verificar tu ubicación.';
+            }
+        }
+
+        // Llamamos a la función al cargar la página
+        window.onload = getLocation;
+    </script>
+
+</body>
+</html>
